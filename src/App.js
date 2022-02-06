@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Container } from "react-bootstrap";
-import NewFilters from "./components/NewFilters";
 import LaunchPrograms from "./components/LaunchPrograms";
+import Filters from "./components/Filters";
 import { useState } from "react";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
       </h4>
       <div className="row p-3">
         <div className="col-3">
-          <NewFilters onFilter={filterHandler} />
+          <Filters onFilter={filterHandler} filterValues={filterValues} />
         </div>
         <div className="col-9">
           <LaunchPrograms filterValues={filterValues} />

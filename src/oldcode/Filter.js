@@ -1,28 +1,31 @@
-import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 
 const Filter = (props) => {
-  const [buttonClicked, setButtonClicked] = useState(false);
-  const [filterValue, setFilterValue] = useState(false);
-
-  const onClickHandler = (event) => {
-    setButtonClicked((buttonClicked) => !buttonClicked);
-    setFilterValue(event.target.textContent);
+  const onClickHandler = (e) => {
+    const value = e.target.textContent;
+    props.onChange(value);
+    //can't show toggle state in UI??????
+    // debugger;
+    // if (props.filterSelected === value) {
+    //   e.preventDefault();
+    //   document.getElementById(id).checked = false;
+    // }
   };
-
-  useEffect(() => {
-    if (buttonClicked) props.onChange(filterValue);
-    else props.onChange("");
-  }, [buttonClicked]);
-
   return (
-    <Button
-      id={props.filterValue + "btn"}
-      className={`col-5 m-2 ${buttonClicked ? "btn-info" : "btn-primary"}`}
-      onClick={onClickHandler}
-    >
-      {props.filterValue}
-    </Button>
+    <ToggleButtonGroup type="radio" name={props.type}>
+      {props.filterValues.map((filterValue) => (
+        <ToggleButton
+          className="col-3 m-2 btn-primary"
+          id={props.type + filterValue}
+          key={filterValue}
+          value={filterValue}
+          onClick={(event) => onClickHandler(event, props.type + filterValue)}
+          //   onClick={props.onChange(filterValue, props.type + filterValue)}
+        >
+          {filterValue}
+        </ToggleButton>
+      ))}
+    </ToggleButtonGroup>
   );
 };
 

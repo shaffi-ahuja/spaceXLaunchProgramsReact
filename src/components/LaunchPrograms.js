@@ -8,8 +8,8 @@ const LaunchPrograms = (props) => {
 
   const filterValues = props.filterValues;
 
-  let url = "https://api.spaceXdata.com/v3/launches";
-  let query = "?limit=100";
+  let url = "https://api.spaceXdata.com/v3/launches?limit=100";
+  let query = "";
 
   if (filterValues.year !== "") query += `&launch_year=${filterValues.year}`;
   if (filterValues.launchSuccess !== "")
@@ -45,7 +45,7 @@ const LaunchPrograms = (props) => {
       };
     });
     if (loadedData.length === 0)
-      setHasError("No Data available for current year and status selected.");
+      setHasError("No Data available for current year / status selected.");
     // console.log(recievedData);
     setDetails(loadedData);
     setIsLoading(false);

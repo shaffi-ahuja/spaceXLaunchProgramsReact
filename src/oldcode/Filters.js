@@ -14,46 +14,64 @@ const Filters = (props) => {
   ];
   const booleanArray = ["True", "False"];
 
-  const onLaunchYearChange = (year) => {
-    setFilterSelected((prevFilter) => ({ ...prevFilter, year }));
+  const onLaunchYearChange = (value) => {
+    setFilterSelected((prevFilter) => {
+      if (prevFilter.year === value) return { ...prevFilter, year: "" };
+      return { ...prevFilter, year: value };
+    });
   };
-  const onLaunchSuccessChange = (launchSuccess) => {
-    setFilterSelected((prevFilter) => ({ ...prevFilter, launchSuccess }));
+  const onLaunchSuccessChange = (value) => {
+    setFilterSelected((prevFilter) => {
+      if (prevFilter.launchSuccess === value)
+        return { ...prevFilter, launchSuccess: "" };
+      return { ...prevFilter, launchSuccess: value };
+    });
   };
-  const onLandSuccessChange = (landSuccess) => {
-    setFilterSelected((prevFilter) => ({ ...prevFilter, landSuccess }));
+  const onLandSuccessChange = (value) => {
+    setFilterSelected((prevFilter) => {
+      if (prevFilter.landSuccess === value)
+        return { ...prevFilter, landSuccess: "" };
+      return { ...prevFilter, landSuccess: value };
+    });
   };
   useEffect(() => {
-    console.log(filterSelected);
+    props.onFilter(filterSelected);
   }, [filterSelected]);
 
   return (
     <Card className="p-2">
-      <div className="row">
+      <div className="row justify-content-center">
         <h4>Filters</h4>
         <h6 className="text-center">Launching Year</h6>
-        <hr />
-        {yearArray.map((year) => (
-          <Filter filterValue={year} key={year} onChange={onLaunchYearChange} />
-        ))}
+        <div className="px-3 py-0">
+          <hr className="my-2" />
+        </div>
+        <Filter
+          onChange={onLaunchYearChange}
+          type="year"
+          filterValues={yearArray}
+          filterSelected={filterSelected.year}
+        />
         <h6 className="text-center">Successful Launch</h6>
-        <hr />
-        {booleanArray.map((value) => (
-          <Filter
-            filterValue={value}
-            key={value}
-            onChange={onLaunchSuccessChange}
-          />
-        ))}
+        <div className="px-3 py-0">
+          <hr className="my-2" />
+        </div>
+        <Filter
+          onChange={onLaunchSuccessChange}
+          type="launch_success"
+          filterValues={booleanArray}
+          filterSelected={filterSelected.launchSuccess}
+        />
         <h6 className="text-center">Successful Landing</h6>
-        <hr />
-        {booleanArray.map((value) => (
-          <Filter
-            filterValue={value}
-            key={value}
-            onChange={onLandSuccessChange}
-          />
-        ))}
+        <div className="px-3 py-0">
+          <hr className="my-2" />
+        </div>
+        <Filter
+          onChange={onLandSuccessChange}
+          type="land_success"
+          filterValues={booleanArray}
+          filterSelected={filterSelected.landSuccess}
+        />
       </div>
     </Card>
   );
