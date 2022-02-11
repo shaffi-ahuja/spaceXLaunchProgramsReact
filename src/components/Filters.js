@@ -1,108 +1,136 @@
-import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import Filter from "./Filter";
+import React, { Component } from "react";
 
-const Filters = (props) => {
-  const [filterSelected, setFilterSelected] = useState({
-    year: "",
-    launchSuccess: "",
-    landSuccess: "",
-  });
-  const yearArray = [
-    "2006",
-    "2007",
-    "2008",
-    "2009",
-    "2010",
-    "2011",
-    "2012",
-    "2013",
-    "2014",
-    "2015",
-    "2016",
-    "2017",
-    "2018",
-    "2019",
-    "2020",
-  ];
-  const booleanArray = ["True", "False"];
+class Filters extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterSelected: { year: "", launchSuccess: "", landSuccess: "" },
+    };
+  }
 
-  const onLaunchYearChange = (value) => {
-    setFilterSelected((prevFilter) => {
-      if (prevFilter.year === value) return { ...prevFilter, year: "" };
-      return { ...prevFilter, year: value };
-    });
-  };
-  const onLaunchSuccessChange = (value) => {
-    setFilterSelected((prevFilter) => {
-      if (prevFilter.launchSuccess === value)
-        return { ...prevFilter, launchSuccess: "" };
-      return { ...prevFilter, launchSuccess: value };
-    });
-  };
-  const onLandSuccessChange = (value) => {
-    setFilterSelected((prevFilter) => {
-      if (prevFilter.landSuccess === value)
-        return { ...prevFilter, landSuccess: "" };
-      return { ...prevFilter, landSuccess: value };
-    });
-  };
-  useEffect(() => {
-    props.onFilter(filterSelected);
-  }, [filterSelected]);
+  isEqual(object1, object2) {
+    for (let key of Object.keys(object1)) {
+      if (object1[key] !== object2[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  onLaunchYearChange(value) {
+    this.state.filterSelected.year === value
+      ? this.setState({
+          filterSelected: { ...this.state.filterSelected, year: "" },
+        })
+      : this.setState({
+          filterSelected: { ...this.state.filterSelected, year: value },
+        });
+  }
+  onLaunchSuccessChange(value) {
+    this.state.filterSelected.launchSuccess === value
+      ? this.setState({
+          filterSelected: { ...this.state.filterSelected, launchSuccess: "" },
+        })
+      : this.setState({
+          filterSelected: {
+            ...this.state.filterSelected,
+            launchSuccess: value,
+          },
+        });
+  }
+  onLandSuccessChange(value) {
+    this.state.filterSelected.landSuccess === value
+      ? this.setState({
+          filterSelected: { ...this.state.filterSelected, landSuccess: "" },
+        })
+      : this.setState({
+          filterSelected: { ...this.state.filterSelected, landSuccess: value },
+        });
+  }
 
-  return (
-    <Card className="p-2">
-      <div className="row justify-content-center">
-        <h4>Filters</h4>
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.isEqual(this.state.filterSelected, prevState.filterSelected)) {
+      this.props.onFilter(this.state.filterSelected);
+    }
+  }
 
-        <h6 className="text-center">Launching Year</h6>
-        <div className="px-3 py-0">
-          <hr className="my-2" />
+  render() {
+    const yearArray = [
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+    ];
+    const booleanArray = ["True", "False"];
+    return (
+      <Card className="p-2">
+        <div className="row justify-content-center">
+          <h4>Filters</h4>
+
+          <h6 className="text-center mb-0 mt-1">Launching Year</h6>
+          <div className="px-3 py-0">
+            <hr className="my-0" />
+          </div>
+          {yearArray.map((value) => (
+            <Filter
+              key={value}
+              onChange={this.onLaunchYearChange.bind(this)}
+              type="year"
+              filterValue={value}
+              isActive={this.state.filterSelected.year === value ? true : false}
+              filterSelected={this.state.filterSelected.year}
+            />
+          ))}
+
+          <h6 className="text-center mb-0 mt-1">Successful Launch</h6>
+          <div className="px-3 py-0">
+            <hr className="my-0" />
+          </div>
+          {booleanArray.map((value) => (
+            <Filter
+              key={value}
+              onChange={this.onLaunchSuccessChange.bind(this)}
+              type="launch_success"
+              filterValue={value}
+              isActive={
+                this.state.filterSelected.launchSuccess === value ? true : false
+              }
+              filterSelected={this.state.filterSelected.launchSuccess}
+            />
+          ))}
+
+          <h6 className="text-center mb-0 mt-1">Successful Landing</h6>
+          <div className="px-3 py-0">
+            <hr className="my-0" />
+          </div>
+          {booleanArray.map((value) => (
+            <Filter
+              key={value}
+              onChange={this.onLandSuccessChange.bind(this)}
+              type="land_success"
+              filterValue={value}
+              isActive={
+                this.state.filterSelected.landSuccess === value ? true : false
+              }
+              filterSelected={this.state.filterSelected.landSuccess}
+            />
+          ))}
         </div>
-        {yearArray.map((value) => (
-          <Filter
-            key={value}
-            onChange={onLaunchYearChange}
-            type="year"
-            filterValue={value}
-            isActive={filterSelected.year === value ? true : false}
-            filterSelected={filterSelected.year}
-          />
-        ))}
-
-        <h6 className="text-center">Successful Launch</h6>
-        <div className="px-3 py-0">
-          <hr className="my-2" />
-        </div>
-        {booleanArray.map((value) => (
-          <Filter
-            key={value}
-            onChange={onLaunchSuccessChange}
-            type="launch_success"
-            filterValue={value}
-            isActive={filterSelected.launchSuccess === value ? true : false}
-            filterSelected={filterSelected.launchSuccess}
-          />
-        ))}
-
-        <h6 className="text-center">Successful Landing</h6>
-        <div className="px-3 py-0">
-          <hr className="my-2" />
-        </div>
-        {booleanArray.map((value) => (
-          <Filter
-            key={value}
-            onChange={onLandSuccessChange}
-            type="land_success"
-            filterValue={value}
-            isActive={filterSelected.landSuccess === value ? true : false}
-            filterSelected={filterSelected.landSuccess}
-          />
-        ))}
-      </div>
-    </Card>
-  );
-};
+      </Card>
+    );
+  }
+}
 
 export default Filters;

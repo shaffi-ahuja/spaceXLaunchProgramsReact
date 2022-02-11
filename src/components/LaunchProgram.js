@@ -1,15 +1,16 @@
 import { Card } from "react-bootstrap";
+import React from "react";
 
 const LaunchProgram = (props) => {
   const details = props.details;
   const launchSuccess =
     details.launch_success !== null
       ? details.launch_success.toString()
-      : "null";
+      : "false";
   const landingSuccess =
     details.launch_landing !== null
       ? details.launch_landing.toString()
-      : "null";
+      : "false";
   return (
     <div className="col-3 px-2 pb-2">
       <Card className="p-3">

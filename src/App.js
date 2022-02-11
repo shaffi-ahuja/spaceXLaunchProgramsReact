@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 import LaunchPrograms from "./components/LaunchPrograms";
 import Filters from "./components/Filters";
 import { useState } from "react";
+import React from "react";
 
 function App() {
   const [filterValues, setFilterValues] = useState({
@@ -22,14 +23,14 @@ function App() {
   };
   return (
     <Container fluid>
-      <h4 className="row px-3 pt-3">
+      <h4 className="row px-3">
         <strong>SpaceX Launch Programs</strong>
       </h4>
-      <div className="row p-3">
-        <div className="col-3">
+      <div className="row px-3 pb-3">
+        <div className="col-2">
           <Filters onFilter={filterHandler} filterValues={filterValues} />
         </div>
-        <div className="col-9">
+        <div className="col-10">
           <LaunchPrograms filterValues={filterValues} />
         </div>
       </div>

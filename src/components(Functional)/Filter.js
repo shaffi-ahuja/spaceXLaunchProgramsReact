@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import React from "react";
 
 const Filter = (props) => {
   return (
@@ -8,7 +7,7 @@ const Filter = (props) => {
         props.onChange(event.target.value);
       }}
       value={props.filterValue}
-      className={`col-5 m-2 btn-sm ${
+      className={`col-3 m-2 ${
         props.isActive ? "btn-info text-white" : "btn-primary"
       }`}
     >
